@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Chat yo self fool!</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+	<button class="btn" id="btnLogOut" class="hide">Log Out</button>
+	<div id="greet" class="jumbotron hide">
+		<h1>Welcome to Chats!</h1>
+		<h3>In order to participate please create an account below</h3>
+		<div class="row">
+			<div class="col-6">
+				<input class="input-group" type="email" id="txtEmail" placeholder="Email">
+				<input class="input-group" type="text" id="txtUserName" placeholder="User Name">
+				<input class="input-group" type="text" id="txtAvatar" placeholder="Avatar URL">
+				<input class="input-group" type="Password" id="txtPassword" placeholder="Password">
+			</div>
+			<div class="col-6">
+				<button class="btn btn-info" id="btnSignUp">Sign Up</button>
+				<button class="btn btn-success" id="btnLogin">Login</button>
+			</div>
+			<div class="col-12">
+				<div class="alert alert-danger hide" id="error"></div>
+			</div>
+		</div>
+	</div>
+	<div class="hide" id="chat-input">
+		<div class="row">
+			<div id="chatty">
+			</div>
+		</div>
+		<div class="row">
+			<div class="fixed-bottom chat-bar">
+				<input type="text" id="msg" placeholder="message here">
+				<button id="chatSend">Send</button>	
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+  <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+<!--   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js" integrity="sha384-lZmvU/TzxoIQIOD9yQDEpvxp6wEU32Fy0ckUgOH4EIlMOCdR823rg4+3gWRwnX1M" crossorigin="anonymous"></script> -->
+  <script src="index.js"></script>
+</html>

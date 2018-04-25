@@ -1,0 +1,75 @@
+/**{
+	border: solid 1px red;
+}*/
+
+/*h1, h2, h3, h4, h5, h6, p{
+	display: inline-block;
+}*/
+
+/*.row{
+	text-align: center;
+}*/
+
+#btnLogOut{
+	position: absolute;
+	top: 20px;
+	right: 0;
+}
+
+#greet{
+	margin-top: 30vh;
+	transform: translateY(-50%);
+	text-align: center;
+}
+
+.input-group{
+	margin: 10px 0;
+	border: 0;
+ border-bottom: 2px solid #17A2B8;
+ width: 100%;
+/* font-size: 30px;*/
+ /*line-height: 35px;*/
+/* height: 70px;*/
+ text-align: center;
+ padding: 10px;
+ background: transparent;
+	color: #17A2B8;
+
+}
+
+.btn{
+	margin-top: 15%;
+}
+
+.chat-bar{
+	margin: 30px 0;
+	text-align: center;
+}
+
+#chatty{
+	height: calc(100vh - 70px);
+	overflow-y: auto;
+	width: 100%;
+}
+
+#chatty img,h6,p {
+	display: inline;
+}
+
+#msg{
+	width: 75%;
+}
+
+.avatar{
+	max-width: 60px;
+	max-height: 60px;
+	margin-right: 10px;
+}
+
+.error{
+	display: block;
+}
+
+.hide{
+	display: none;
+}
