@@ -23,6 +23,7 @@ let chatWindow = document.getElementById('chatty');
 let msg = document.getElementById('msg');
 let jumbo = document.getElementById('greet');
 let currentUser = "not logged in";
+let photoURL = "";
 let error = document.getElementById('error');
 let database = firebase.database();
 
@@ -63,7 +64,7 @@ signUp.addEventListener('click', e =>{
                 }).then(function() {
 
                   currentUser = firebaseUser.displayName;
-                  var photoURL = firebaseUser.photoURL;
+                  photoURL = firebaseUser.photoURL;
                   
                   console.log(currentUser, photoURL);
                   clearFields();
@@ -103,7 +104,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         console.log(snapshot.val());
         var div = document.createElement('div');
         div.appendChild(document.createTextNode(snapshot.val().message));
-        var momo = `<img class="avatar" src="${firebaseUser.photoURL}"><h6>${currentUser}</h6> <p>: ${div.innerHTML}</p><hr>`;
+        var momo = `<img class="avatar" src="${snapshot.val().avatar}"><h6>${snapshot.val().username}</h6> <p>: ${div.innerHTML}</p><hr>`;
         var msgElement = document.createElement("div");
         msgElement.innerHTML = momo;
         chatWindow.appendChild(msgElement);
@@ -138,7 +139,8 @@ chat.addEventListener("click", function() {
     firebase.database().ref('msgs').push({
       userId: userId,
       username: name,
-      message: msgText
+      message: msgText,
+      avatar: photoURL
     });
   }
 });
@@ -154,7 +156,8 @@ enterKey.addEventListener("keyup", function(event) {
     firebase.database().ref('msgs').push({
       userId: userId,
       username: name,
-      message: msgText
+      message: msgText,
+      avatar: photoURL
     });
   }
 })
