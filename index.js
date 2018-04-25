@@ -27,7 +27,9 @@ let photoURL = "http://s3.amazonaws.com/37assets/svn/765-default-avatar.png";
 let error = document.getElementById('error');
 let database = firebase.database();
 
+
 login.addEventListener('click', e =>{
+  database.goOnline();
   let auth = firebase.auth();
   let promise = auth.signInWithEmailAndPassword(email.value, password.value);
   promise.catch(e => {
@@ -42,6 +44,7 @@ login.addEventListener('click', e =>{
 
 signUp.addEventListener('click', e =>{
   if (email.value != "" && userName.value != "" && avatar.value != "" && password.value != "") {
+    database.goOnline();
     let auth = firebase.auth();
     let promise = auth.createUserWithEmailAndPassword(email.value, password.value);
     
@@ -84,10 +87,13 @@ signUp.addEventListener('click', e =>{
 logOut.addEventListener('click', e =>{
   firebase.auth().signOut();
   console.log("signed out");
+  database.goOffline();
 });
 
 firebase.auth().onAuthStateChanged(firebaseUser => {
+
   if(firebaseUser) {
+    updateOnDisconnect();
     currentUser = firebaseUser.displayName;
     logOut.classList.remove("hide");
     login.classList.add("hide");
@@ -97,8 +103,15 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     
     newMsg.once('value', function(snapshot) {
       ignoreItems = false;
-    });  
-
+    });
+    
+    if (firebase.auth().currentUser) {
+      var statusUpdate = document.createElement("div");
+      statusUpdate.innerHTML = "a user has entered the chatroom <hr>";
+      statusUpdate.classList.add("status-update");
+      chatWindow.appendChild(statusUpdate);
+    }
+      
     newMsg.limitToLast(1).on("child_added", function(snapshot) {
       if (!ignoreItems) {
         console.log(snapshot.val());
@@ -134,7 +147,11 @@ chat.addEventListener("click", function() {
     photoURL = firebase.auth().currentUser.photoURL;
     msg.value = "";
 
-    console.log(userId);
+
+database.ref('msg').onDisconnect().set({onlineState: false,status: "I'm offline."})
+
+
+    console.log(photoURL);
 
     firebase.database().ref('msgs').push({
       userId: userId,
@@ -153,15 +170,17 @@ enterKey.addEventListener("keyup", function(event) {
     var msgText = msg.value;
     photoURL = firebase.auth().currentUser.photoURL;
     msg.value = "";
-    console.log(userId);
-    firebase.database().ref('msgs').push({
+    
+    console.log(photoURL);
+    
+    database.ref('msgs').push({
       userId: userId,
       username: name,
       message: msgText,
       photoURL: photoURL
     });
   }
-})
+});
 
 let clearFields = function(){
     email.value = "";
@@ -169,4 +188,22 @@ let clearFields = function(){
     avatar.value = "";
     password.value = "";
     error.innerHTML ="";
-}  
+} ; 
+
+  /// Updates status when connection to Firebase ends
+let updateOnDisconnect = function(){
+  database.ref(`users/`).update({status: 'online'});
+  database.ref(`users/`).onDisconnect().update({status: 'offline'});
+  firebase.database().ref('users/').on("value", function(snapshot) { 
+    console.log("logged out", snapshot.val().status);
+      if (snapshot.val().status == "logged out offline") {
+        var statusUpdate = document.createElement("div");
+        statusUpdate.innerHTML = "a user has left the chatroom <hr>";
+        statusUpdate.classList.add("status-update");
+        chatWindow.appendChild(statusUpdate);
+      }
+      
+  });
+};
+
+

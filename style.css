@@ -73,3 +73,7 @@
 .hide{
 	display: none;
 }
+
+.status-update{
+	color: darkred;
+}
